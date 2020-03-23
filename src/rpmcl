@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+
+import click
+from sh import rpm
+from sh import head
+
+
+@click.command()
+@click.option("--count", "-c", default=10, help="Number of changelog lines.")
+@click.option("--name", "-n", multiple=True, help="RPM package names.")
+def changelog(count, name):
+    """RPM package changelog for a list of packages"""
+    for n in name:
+        print(f"\n \033[1m{n} changelog\033[0m")
+        print(head(rpm("-q", "--changelog", n), "-n", count))
+
+
+if __name__ == "__main__":
+    changelog()
